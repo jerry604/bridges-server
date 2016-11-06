@@ -21,6 +21,24 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+let roomController = require('../application/controllers/room.controller');
+var io = require('socket.io')();
+var listener = io.listen(server);
+
+listener.sockets.on('connection', function(socket){
+
+  socket.on('join_message', function(data){
+    process.stdout.write(data);
+    io.sockets.emit("join_message", roomController.getRoom(data));
+  });
+
+  socket.on('lose_message', function(data){
+    process.stdout.write(data);
+    io.sockets.emit("lose_message", roomController.getUser(data));
+  });
+
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */
