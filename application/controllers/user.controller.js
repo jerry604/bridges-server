@@ -35,8 +35,8 @@ exports.createUser = function (name) {
  * stuff
  */
 
-exports.getUser = function (data) {
+exports.getUser = function (data, cb) {
     User.find({_id: data}, user => {
-        return user;
+        cb(user);
     });
 };
