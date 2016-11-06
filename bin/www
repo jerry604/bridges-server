@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 /**
  * Module dependencies.
@@ -20,6 +21,34 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Set up socket
+ */
+
+let gameController = require('../application/controllers/game.controller');
+let roomController = require('../application/controllers/room.controller');
+let userController = require('../application/controllers/user.controller');
+
+let io = require('socket.io')();
+let listener = io.listen(server);
+
+listener.sockets.on('connection', socket => {
+  socket.on('join_message', data => {
+    console.log("User has joined room", data);
+    io.sockets.emit('join_message', roomController.getRoom(data));
+  });
+
+  socket.on('start_game', data => {
+    console.log('User has started game', data);
+    io.sockets.emit('start_game', data);
+  });
+
+  socket.on('lose_message', data => {
+    console.log("User has lost", data);
+    io.sockets.emit('lose_message', gameController.getUser(data));
+  });
+});
 
 /**
  * Listen on provided port, on all network interfaces.

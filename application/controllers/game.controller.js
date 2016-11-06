@@ -1,6 +1,7 @@
 'use strict';
 
 let util = require('../utilities/utilities');
+let phraseUtil = require('../utilities/phrases');
 
 let Game = require('mongoose').model('games');
 let Room = require('mongoose').model('rooms');
@@ -42,9 +43,15 @@ exports.pullTrigger = gameId => {
 
             if (isShot) {
                 /// HANDLE END OF GAME EVENT
+                let phrasesLength = phraseUtil.phrases.length;
+                let index = util.generateRandomNumber(phrasesLength - 1);
+                let phrase = phraseUtil.phrases[index];
+                
+                // console.log("PHRASE", phrase);
                 return resolve({
                     playerId: game.playerTurn,
-                    playerShot: true
+                    playerShot: true,
+                    phrase: phrase
                 });
             } else {
                 game.numBarrels = decrementBarrels(numBarrels);
