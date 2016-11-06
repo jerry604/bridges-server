@@ -30,3 +30,13 @@ exports.createUser = function (name) {
         });
     });
 };
+
+/**
+ * stuff
+ */
+
+exports.getUser = function (data) {
+    User.find({_id: data}, user => {
+        return user;
+    });
+};

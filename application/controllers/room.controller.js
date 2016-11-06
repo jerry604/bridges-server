@@ -46,3 +46,13 @@ exports.joinRoom = function (userId, roomName) {
         });
     });
 };
+
+/**
+ * stuff
+ */
+
+exports.getRoom = function (data) {
+    Room.findOne({_id: data}, room => {
+        return room;
+    });
+};
