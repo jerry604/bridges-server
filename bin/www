@@ -54,7 +54,9 @@ let listener = io.listen(server);
 listener.sockets.on('connection', socket => {
   socket.on('join_message', data => {
     console.log("User has joined room", data);
-    io.sockets.emit('join_message', roomController.getRoom(data));
+    roomController.getRoom(data, room => {
+      io.sockets.emit('join_message', room);
+    });
   });
 
   socket.on('start_game', data => {
@@ -64,7 +66,9 @@ listener.sockets.on('connection', socket => {
 
   socket.on('lose_message', data => {
     console.log("User has lost", data);
-    io.sockets.emit('lose_message', gameController.getUser(data));
+    userController.getUser(data, user => {
+      io.sockets.emit('lose_message', user);
+    });
   });
 });
 

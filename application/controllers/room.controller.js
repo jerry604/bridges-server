@@ -51,8 +51,8 @@ exports.joinRoom = function (userId, roomName) {
  * stuff
  */
 
-exports.getRoom = function (data) {
+exports.getRoom = function (data, cb) {
     Room.findOne({_id: data}, room => {
-        return room;
+        cb(room);
     });
 };
