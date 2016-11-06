@@ -22,24 +22,6 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-let roomController = require('../application/controllers/room.controller');
-var io = require('socket.io')();
-var listener = io.listen(server);
-
-listener.sockets.on('connection', function(socket){
-
-  socket.on('join_message', function(data){
-    process.stdout.write(data);
-    io.sockets.emit("join_message", roomController.getRoom(data));
-  });
-
-  socket.on('lose_message', function(data){
-    process.stdout.write(data);
-    io.sockets.emit("lose_message", roomController.getUser(data));
-  });
-
-});
-
 /**
  * Set up socket
  */
@@ -55,6 +37,7 @@ listener.sockets.on('connection', socket => {
   socket.on('join_message', data => {
     console.log("User has joined room", data);
     roomController.getRoom(data, room => {
+      console.log(room);
       io.sockets.emit('join_message', room);
     });
   });
@@ -64,11 +47,14 @@ listener.sockets.on('connection', socket => {
     io.sockets.emit('start_game', data);
   });
 
+  socket.on('pass_gun', data => {
+    console.log('The gun has been passed by user', data);
+    io.sockets.emit('pass_gun', data);
+  });
+
   socket.on('lose_message', data => {
     console.log("User has lost", data);
-    userController.getUser(data, user => {
-      io.sockets.emit('lose_message', user);
-    });
+    io.sockets.emit('lose_message', data);
   });
 });
 
