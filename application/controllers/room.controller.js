@@ -53,7 +53,6 @@ exports.joinRoom = function (userId, roomName) {
 
 exports.getRoom = function (data, cb) {
     Room.findOne({_id: data}, (err, room) => {
-        console.log(room);
         cb(room);
     });
 };

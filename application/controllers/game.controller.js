@@ -7,7 +7,7 @@ let Game = require('mongoose').model('games');
 let Room = require('mongoose').model('rooms');
 let User = require('mongoose').model('users');
 
-let NUM_BARRELS = 7; // 0 - 7 INCLUSIVE
+let NUM_BARRELS = 15; // 0 - 15 INCLUSIVE
 
 exports.startGame = roomId => {
     return new Promise((resolve, reject) => {
@@ -46,8 +46,7 @@ exports.pullTrigger = gameId => {
                 let phrasesLength = phraseUtil.phrases.length;
                 let index = util.generateRandomNumber(phrasesLength - 1);
                 let phrase = phraseUtil.phrases[index];
-                
-                // console.log("PHRASE", phrase);
+
                 return resolve({
                     playerId: game.playerTurn,
                     playerShot: true,
