@@ -10,5 +10,5 @@ exports.phrases = [
     'Your teeth throw up gang signs.',
     'You\'re like the Forrest Gump that never did anything',
     'Drama just follows me.',
-    'You\' suck.'
+    'You suck.'
 ];
